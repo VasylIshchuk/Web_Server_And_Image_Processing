@@ -2,7 +2,6 @@ package org.umcs.imagewebserver;
 
 import org.springframework.web.bind.annotation.*;
 
-import java.nio.Buffer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -17,19 +16,27 @@ public class RectangleController {
 
     private final Rectangle  rectangleDefault = new Rectangle(40,20,70,30,"purple");
     private List<Rectangle> rectangles = new ArrayList<>();
-    
+
+//Marks a method as HTTP GET(It is used to get information from the server) request handle.
+// This method will be called for GET requests by URL ("/rectangle/get")
     @GetMapping("get")
-//Marks a method as HTTP GET request handle.This method will be called for GET requests by URL ("/rectangle/get")
     public Rectangle getRectangle(){
         return rectangleDefault;
     }
+
+//  This annotation indicates, that method will be called only for HTTP POST-requests(
+//  Used to send data to the server, in purpose of create or update resource)
+//  on pointed URL-way, which in this case ("/rectangle/add").
     @PostMapping("add")
-//    This annotation indicates, that method will be called only for HTTP POST-requests
-//    on pointed URL-way, which in this case ("/rectangle/add").
-    public String addRectangle(){
-        rectangles.add(rectangleDefault);
+    public String addRectangle(@RequestBody Rectangle rectangle){
+        rectangles.add(rectangle);
         return "Successfully added";
     }
+//    The "@RequestBody" annotation takes the object from the request body. Spring expects this object
+//    to be in JSON or XML format, and it will be automatically converted to the corresponding Java object.
+//
+//    Now, for this process to work correctly, the object class you're passing in,
+//    must have methods that allow you to access its fields - getters and setters.
     @GetMapping("getList")
     public List<Rectangle> getRectangleList(){
         return rectangles;
