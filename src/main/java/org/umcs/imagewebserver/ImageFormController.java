@@ -1,19 +1,16 @@
 package org.umcs.imagewebserver;
 
+import image.ImageProcessor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.imageio.ImageIO;
-import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Base64;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
 
 
 @Controller
@@ -28,7 +25,8 @@ public class ImageFormController {
                          @RequestParam("value") int value, Model model){
         try {
             BufferedImage image = ImageIO.read(file.getInputStream());
-            image = increaseBrightnessWithPoolOfThreads(image,value);
+            ImageProcessor ip = new ImageProcessor(image);
+            ip.increaseBrightnessWithPoolOfThreads(value);
             ByteArrayOutputStream imageBytes = new ByteArrayOutputStream();
             ImageIO.write(image,"jpg",imageBytes);
             model.addAttribute("image", Base64.getEncoder().encodeToString(imageBytes.toByteArray()));
@@ -47,40 +45,4 @@ public class ImageFormController {
 
 //    You can use @ModelAttribute to automatically populate an object of type 'Rectangle'
 //    with this data, if .html have th:field="*{name}" for all fields.
-
-private BufferedImage increaseBrightnessWithPoolOfThreads(BufferedImage image, int value ){
-    int numThreads = Runtime.getRuntime().availableProcessors();
-    ExecutorService executorService = Executors.newFixedThreadPool(numThreads);
-    for (int i = 0; i < image.getHeight(); ++i) {
-        final int y = i;
-        executorService.execute(() -> {
-            for (int x = 0; x < image.getWidth(); ++x) {
-                Color color = new Color(image.getRGB(x,y));
-                int blue = color.getBlue();
-                int green = color.getGreen();
-                int red = color.getRed();
-                int alpha = color.getAlpha();
-                blue = increaseColor(blue,value);
-                green = increaseColor(green,value);
-                red = increaseColor(red,value);
-                alpha = increaseColor(alpha,value);
-                int rgb = blue | (green << 8) | (red << 16) | (alpha << 24);
-                image.setRGB(x, y, rgb);
-            }
-        });
-    }
-    executorService.shutdown();
-    try {
-        executorService.awaitTermination(5, TimeUnit.SECONDS);
-    } catch (InterruptedException e) {
-        e.printStackTrace();
-    }
-    return  image;
-}
-    private int increaseColor(int color,int constant){
-        color +=constant;
-        if (color>255) return 255;
-        else if (color<0) return 0;
-        return  color;
-    }
 }
