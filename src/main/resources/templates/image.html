@@ -1,5 +1,24 @@
 <html>
+<head>
+    <link rel="stylesheet" href="/style_image.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brighter image</title>
+    <link rel="icon" href="/icon_html.png">
+    <style>
+        body {
+            background-color: #2F3C7E;
+        }
+    </style>
+</head>
 <body>
-    <img id="image" th:src="'data:image/png;base64,' + ${image}"/>
+    <div class="grid">
+        <img id="image" th:src="'data:image/png;base64,' + ${image}"/>
+    </div>
+    <div class="grid">
+        <a id="link" th:href="'data:image/png;base64,' + ${image}" download="image.png">
+            <button type="submit" id="button">Download</button>
+            <br>
+        </a>
+    </div>
 </body>
 </html>

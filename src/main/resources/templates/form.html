@@ -1,0 +1,36 @@
+<html>
+<head>
+    <link rel="stylesheet" href="/style_form.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Change brightness image</title>
+    <link rel="icon" href="/icon_html.png">
+    <style>
+        body {
+            background-color: #2F3C7E;
+        }
+    </style>
+</head>
+<body>
+    <h1 id="header">Increasing the brightness of an image</h1>
+
+    <div id="wrapper">
+        <img src="/pictures.png" alt="pictures" id="pictures">
+
+        <form class="form-group" method="post" th:action="@{/imageform/upload}" enctype="multipart/form-data"
+              target="_blank">
+            <input type="file" name="image" id="file" accept="image/*" title="Select Image"><br>
+            <label for="inputValue">Value :</label>
+            <input type="number" name="value" id="inputValue" title="Set the value from -255 to 255"
+                   placeholder="-255 to 255"
+                   maxlength="4" min="-255" max="255" autocomplete="off"><br>
+            <button type="submit" id="button">Upload</button>
+            <br>
+            <img src="/landscape.png" alt="landscape" id="landscape" width="48px" height="48px">
+        </form>
+
+        <img src="/computer.png" alt="computer" id="computer">
+        <img src="/photo-camera.png" alt="photo camera" id="photo-camera">
+        <img src="/camera.png" alt="camera" id="camera">
+    </div>
+</body>
+</html>

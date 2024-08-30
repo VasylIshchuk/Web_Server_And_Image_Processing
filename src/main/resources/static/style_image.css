@@ -1,0 +1,39 @@
+.grid {
+    display: grid;
+    grid-template-columns: auto auto auto;
+    grid-template-areas: ". main .";
+    margin-top: 50px;
+}
+
+#image {
+    grid-area: main;
+    place-self: center;
+    width: 40%;
+    box-shadow: 0 12px 16px 0 #fbeaeb78, 0 17px 50px 0 #fbeaeb47;
+}
+
+#link {
+    grid-area: main;
+    place-self: center;
+}
+
+#button {
+    place-self: center;
+    padding: 12px 28px;
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+    color: #412344;
+    background-color: #F1D103;
+    border: 3px solid #412344;
+    display: inline-block;
+    transition-duration: 0.4s;
+    cursor: pointer;
+    border-radius: 12px;
+}
+
+#button:hover {
+    color: #F1D103;
+    background-color: #412344;
+    box-shadow: 0 12px 16px 0 #fbeaeb78, 0 17px 50px 0 #fbeaeb47;
+}

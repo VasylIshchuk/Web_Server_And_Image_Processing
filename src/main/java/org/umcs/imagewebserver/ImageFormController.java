@@ -18,7 +18,7 @@ import java.util.Base64;
 public class ImageFormController {
     @GetMapping("image")
     public String getIndex(){
-        return "index";
+        return "form";
     }
     @PostMapping("upload")
     public String upload(@RequestParam("image")  MultipartFile file,
@@ -27,6 +27,7 @@ public class ImageFormController {
             BufferedImage image = ImageIO.read(file.getInputStream());
             ImageProcessor ip = new ImageProcessor(image);
             ip.increaseBrightnessWithPoolOfThreads(value);
+
             ByteArrayOutputStream imageBytes = new ByteArrayOutputStream();
             ImageIO.write(image,"jpg",imageBytes);
             model.addAttribute("image", Base64.getEncoder().encodeToString(imageBytes.toByteArray()));

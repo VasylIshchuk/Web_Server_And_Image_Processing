@@ -1,5 +1,9 @@
 package org.umcs.imagewebserver;
+//    The "@RequestBody" annotation takes the object from the request body. Spring expects this object
+//    to be in JSON or XML format, and it will be automatically converted to the corresponding Java object.
 
+//    For this process to work correctly, the object class you're passing in,
+//    must have methods that allow you to access its fields - getters and setters.
 public class Rectangle {
     private int x, y, width, height;
     private String color;
